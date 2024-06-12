@@ -48,19 +48,21 @@ p.addParameter('nstacks', 1, @(x)isnumeric(x) && x>0);
 p.parse(Xraw, varargin{:});
 inputs = p.Results;
 
+
 %% stacking the data matrix 
-if inputs.nstacks > 1,
+if inputs.nstacks > 1
     Xaug = [];
-    for st = 1:inputs.nstacks,
+    for st = 1:inputs.nstacks
         Xaug = [Xaug; Xraw(:, st:end-inputs.nstacks+st)]; %#ok<AGROW>
-    end;
+    end
     
     X = Xaug(:, 1:end-1);
     Y = Xaug(:, 2:end);
 else
     X = Xraw(:, 1:end-1);
     Y = Xraw(:, 2:end);
-end;
+end
+
 
 %% DMD
 [U, S, V] = svd(X, 'econ');
@@ -68,25 +70,26 @@ diagS = diag(S);
 
 % if we want to use optimal singular value hard threshold, compute the
 % truncation order r
-if inputs.use_optimal_SVHT > 0,
-    beta = size(X,1)/size(X,2); if beta > 1, beta = 1/beta; end;
+if inputs.use_optimal_SVHT > 0
+    beta = size(X,1)/size(X,2);
+    if beta > 1, beta = 1/beta; end
     omega = optimal_SVHT_coef(beta,0) * median(diagS);
     r = sum(diagS > omega);
 else
     r = inputs.r;
-end;
+end
 
-if r >= size(U,2),
+if r >= size(U,2)
     % no truncation
     Atilde = U'*Y*V/S;
     
-    if inputs.scale_modes == 0,
+    if inputs.scale_modes == 0
         [W, D] = eig(Atilde);  
     else % scaling modes
         Ahat = S^(-1/2) * Atilde * S^(1/2);
         [What, D] = eig(Ahat);
         W = S^(1/2) * What;
-    end;
+    end
 
     Phi = Y*V/S*W;
 else

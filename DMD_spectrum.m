@@ -1,4 +1,4 @@
-function [f P] = DMD_spectrum(Phi, mu, varargin)
+function [f, P] = DMD_spectrum(Phi, mu, varargin)
 % function [f P] = DMD_spectrum(Phi, mu, varargin)
 % computes the DMD spectrum, based on outputs from DMD.m
 %

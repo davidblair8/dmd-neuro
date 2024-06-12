@@ -1,4 +1,4 @@
-function [Xhat z0] = DMD_recon(Phi, lambda, x0, M, varargin)
+function [Xhat, z0] = DMD_recon(Phi, lambda, x0, M, varargin)
 % function [Xhat z0] = DMD_recon(Phi, lambda, x0, M, varargin)
 % reconstructs the data matrix X from its Dynamic Mode Decomposition,
 % where [Phi mu lambda diagS x0] = DMD(X)
@@ -43,16 +43,16 @@ p.parse(Phi, lambda, x0, M, varargin{:});
 inputs = p.Results;
 
 %% if we're only using a subset of the modes in the reconstruction
-if ~isempty(inputs.keep_modes),
+if ~isempty(inputs.keep_modes)
     Phi = Phi(:, inputs.keep_modes);
     lambda = lambda(inputs.keep_modes);
-end;
+end
 
 %% reconstruct
 z0 = Phi\x0; % initial conditions
 Z = zeros(length(z0), M);
-for tt = 1:M,
+for tt = 1:M
     Z(:, tt) = z0 .* lambda.^tt;
-end;
+end
 
 Xhat = Phi * Z;
