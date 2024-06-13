@@ -4,7 +4,7 @@ function [Phi, mu, lambda, diagS, x0] = DMD(Xraw, varargin)
 %
 % INPUTS: 
 %
-% rows of Xraw are assumed to be measurements
+% rows of Xraw are assumed to be variables
 % columns Xraw are assumed to be time points, sampled at equal dt's
 %
 % optional parameters: {'parameter_name', [default_value]}
