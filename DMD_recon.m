@@ -36,7 +36,7 @@ p.addRequired('x0', @isnumeric);
 p.addRequired('M', @(x)isnumeric(x) && x>0);
 
 % parameter value iputs
-p.addParamValue('keep_modes', [], @isnumeric);
+p.addParameter('keep_modes', [], @isnumeric);
 
 % now parse the inputs
 p.parse(Phi, lambda, x0, M, varargin{:});

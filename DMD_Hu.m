@@ -37,7 +37,7 @@ p = inputParser;
 % required inputs
 p.addRequired('Xraw', @isnumeric);
 
-% parameter value inputs
+% parameter value iputs
 p.addParameter('dt', 1, @(x)isnumeric(x) && x>0);
 p.addParameter('r', 1e32, @(x)isnumeric(x) && x>0);
 p.addParameter('use_optimal_SVHT', 0, @isnumeric);
@@ -90,9 +90,8 @@ if r >= size(U,2)
         [What, D] = eig(Ahat);
         W = S^(1/2) * What;
     end
-
-    Phi = Y*V/S*W;
-    % Phi = U*W;
+    
+    Phi = U*W;
 else
     % truncate modes
     U_r = U(:, 1:r);
@@ -109,8 +108,7 @@ else
         W_r = S_r^(1/2) * What;
     end
     
-    Phi = Y*V_r/S_r*W_r;
-    % Phi = U_r*W_r;
+    Phi = U_r*W_r;
 end
 
 lambda = diag(D);

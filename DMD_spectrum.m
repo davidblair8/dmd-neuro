@@ -1,4 +1,4 @@
-function [f, P] = DMD_spectrum(Phi, mu, varargin)
+function [f, P, F] = DMD_spectrum(Phi, mu, varargin)
 % function [f P] = DMD_spectrum(Phi, mu, varargin)
 % computes the DMD spectrum, based on outputs from DMD.m
 %
@@ -24,23 +24,23 @@ p.addRequired('Phi', @isnumeric);
 p.addRequired('mu', @isnumeric);
 
 % parameter value iputs
-p.addParamValue('plotit', 0, @isnumeric);
+p.addParameter('plotit', 0, @isnumeric);
 
 % now parse the inputs
 p.parse(Phi, mu, varargin{:});
 inputs = p.Results;
 
 %%
-f = abs(imag(mu(:))/2/pi); % frequency in cycles/sec
-P = (diag(Phi'*Phi)); % roughly scales like the fft spectrum
+f = abs(imag(mu(:))/2/pi);  % frequency in cycles/sec
+P = (diag(Phi'*Phi));       % roughly scales like the fft spectrum
 
 f = f(:);
 P = P(:);
 %%
-if inputs.plotit,
-    figure;
+if inputs.plotit
+    F = figure;
     stem(f, P, 'k');
     axis tight;
     xlabel('freq. (Hz)');
     ylabel('mode power');
-end;
+end
